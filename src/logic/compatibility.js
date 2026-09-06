@@ -18,11 +18,11 @@ function validateInputs(residents, dishes, budget) {
   }
 
   const dishIds = new Set();
-  
+
   for (const dish of dishes) {
     // Dish ID non-empty
     if (!dish.id || dish.id.trim() === '') return 'INVALID_INPUT';
-    
+
     // Check for duplicate dish IDs
     if (dishIds.has(dish.id)) {
       return 'DUPLICATE_DISH_ID';
@@ -50,7 +50,7 @@ function validateInputs(residents, dishes, budget) {
     // Resident text fields non-empty
     if (!resident.name || resident.name.trim() === '') return 'INVALID_INPUT';
     if (!resident.diet || resident.diet.trim() === '') return 'INVALID_INPUT';
-    
+
     // Allergens non-empty after trimming
     for (const tag of resident.allergens) {
       if (!tag || tag.trim() === '') return 'INVALID_INPUT';
@@ -73,7 +73,7 @@ function checkDiet(dishDiet, residentDiet) {
   if (normRes === 'NO_RESTRICTION') return true;
   if (normRes === 'VEGAN') return normDish === 'VEGAN';
   if (normRes === 'VEGETARIAN') return normDish === 'VEGAN' || normDish === 'VEGETARIAN';
-  
+
   return false;
 }
 
@@ -87,7 +87,7 @@ function checkDiet(dishDiet, residentDiet) {
  */
 export function calculateCompatibility(residents, dishes, budget) {
   const validationError = validateInputs(residents, dishes, budget);
-  
+
   if (validationError) {
     return {
       error: validationError,
@@ -115,7 +115,7 @@ export function calculateCompatibility(residents, dishes, budget) {
       // 3. Next, check allergens for this resident.
       // If ingredients match allergens, add in the exact order those ingredients appear in the dish.
       const normalizedAllergens = resident.allergens.map(a => a.trim().toUpperCase());
-      
+
       for (const ingredient of dish.ingredients) {
         const normalizedIngredient = ingredient.trim().toUpperCase();
         if (normalizedAllergens.includes(normalizedIngredient)) {
@@ -125,9 +125,12 @@ export function calculateCompatibility(residents, dishes, budget) {
     }
 
     // 4. Finally, check the budget rule. Append OVER_BUDGET as the very last reason.
+
     if (dish.price > budget) {
       reasons.push('OVER_BUDGET');
     }
+
+
 
     // If there are no exclusion reasons, the dish is completely compatible
     if (reasons.length === 0) {
