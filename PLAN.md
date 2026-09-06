@@ -1,9 +1,20 @@
 # Implementation Plan
 
-### Step 1: Contracts & Specifications
+### Step 0: Problem Analysis & Architecture Selection
+*   **Action:** Analyze the strict constraints of the problem statement (zero backend, in-memory execution, strict string matching, and single-screen UI).
+*   **Action:** Evaluate technology trade-offs with AI. Compare Vanilla JS (high risk of state-sync/stale DOM bugs) vs. Next.js (violates zero-backend constraint, high risk of over-engineering) vs. React + Vite.
+*   **Action:** Selected React + Vite with purely native `useState` as the optimal stack. This ensures deterministic UI rendering for complex reset/error states while strictly avoiding the over-engineering of Redux, MobX, or even `useReducer`.
+*   **Checkpoint:** Core constraints and technology choices are locked and explicitly documented in `CONSTRAINTS.md` and `DESIGN.md` prior to writing any implementation code.
+
+<!-- ### Step 1: Contracts & Specifications
 *   **Action:** Define the TypeScript interfaces/types for Resident, Dish, and Error states to match the exact schemas in the problem statement.
 *   **Action:** Define the built-in seed data (Asha, Dev, Mira; D01-D05) exactly as contracted.
-*   **Checkpoint:** Types compile successfully, and the seed data constants precisely mirror the problem description.
+*   **Checkpoint:** Types compile successfully, and the seed data constants precisely mirror the problem description. -->
+
+### Step 1: Contracts & Specifications
+*   **Action:** Define the exact data shapes using pure JavaScript and standard JSDoc (`@typedef`) schemas to enforce strict contracts without the over-engineering overhead of a TypeScript compiler.
+*   **Action:** Define the built-in seed data (Asha, Dev, Mira; D01-D05) exactly as contracted.
+*   **Checkpoint:** JSDoc types provide IDE autocomplete, and the seed data constants precisely mirror the problem description.
 
 ### Step 2: Core Domain Logic & Unit Testing
 *   **Action:** Implement the pure functions for normalizers (trim, uppercase).
