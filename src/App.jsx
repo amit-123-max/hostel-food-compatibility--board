@@ -47,8 +47,8 @@ export default function App() {
   const handleResidentChange = (index, field, value) => {
     const updated = [...residents];
     if (field === 'allergens') {
-      // Split by comma, trim, and filter out empty strings
-      updated[index][field] = value.split(',').map(s => s.trim()).filter(Boolean);
+      // Split strictly by comma exactly as typed to avoid deleting trailing commas/spaces and resetting the cursor
+      updated[index][field] = value.split(',');
     } else {
       updated[index][field] = value;
     }
@@ -58,7 +58,8 @@ export default function App() {
   const handleDishChange = (index, field, value) => {
     const updated = [...dishes];
     if (field === 'ingredients') {
-      updated[index][field] = value.split(',').map(s => s.trim()).filter(Boolean);
+      // Split strictly by comma to preserve user typing state
+      updated[index][field] = value.split(',');
     } else if (field === 'price') {
       updated[index][field] = value === '' ? '' : Number(value);
     } else {
@@ -84,7 +85,7 @@ export default function App() {
     container: { maxWidth: '1000px', margin: '0 auto', padding: '30px', fontFamily: 'system-ui, sans-serif', color: '#212529' },
     section: { marginBottom: '30px', padding: '25px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' },
     table: { width: '100%', borderCollapse: 'collapse', backgroundColor: 'white', borderRadius: '4px', overflow: 'hidden', color: '#212529' },
-    th: { borderBottom: '2px solid #dee2e6', padding: '12px 15px', textAlign: 'left', backgroundColor: '#e9ecef', color: '#495057', fontWeight: '600' },
+    th: { borderBottom: '2px solid #dee2e6', padding: '12px 15px', textAlign: 'center', backgroundColor: '#e9ecef', color: '#495057', fontWeight: '600' },
     td: { borderBottom: '1px solid #dee2e6', padding: '12px 15px' },
     input: { padding: '8px 12px', width: '100%', border: '1px solid #ced4da', borderRadius: '4px', boxSizing: 'border-box', color: '#212529', backgroundColor: '#fff' },
     select: { padding: '8px 12px', width: '100%', border: '1px solid #ced4da', borderRadius: '4px', boxSizing: 'border-box', color: '#212529', backgroundColor: '#fff' },
@@ -121,7 +122,7 @@ export default function App() {
                     <option value="NO_RESTRICTION">NO_RESTRICTION</option>
                   </select>
                 </td>
-                <td style={styles.td}><input style={styles.input} value={r.allergens.join(', ')} onChange={e => handleResidentChange(i, 'allergens', e.target.value)} /></td>
+                <td style={styles.td}><input style={styles.input} value={r.allergens.join(',')} onChange={e => handleResidentChange(i, 'allergens', e.target.value)} /></td>
               </tr>
             ))}
           </tbody>
@@ -133,7 +134,7 @@ export default function App() {
           <label style={{ fontSize: '1.2em', fontWeight: 'bold', marginRight: '15px', color: '#212529' }}>Group Budget (₹):</label>
           <input style={{ ...styles.input, width: '150px', fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center' }} type="number" value={budget} onChange={e => setBudget(e.target.value)} />
         </div>
-        
+
         <h2 style={{ ...styles.h2, textAlign: 'center' }}>Dishes</h2>
 
         <table style={styles.table}>
@@ -160,7 +161,7 @@ export default function App() {
                     <option value="NON_VEGETARIAN">NON_VEGETARIAN</option>
                   </select>
                 </td>
-                <td style={styles.td}><input style={styles.input} value={d.ingredients.join(', ')} onChange={e => handleDishChange(i, 'ingredients', e.target.value)} /></td>
+                <td style={styles.td}><input style={styles.input} value={d.ingredients.join(',')} onChange={e => handleDishChange(i, 'ingredients', e.target.value)} /></td>
                 <td style={styles.td}><input style={{ ...styles.input, width: '70px' }} type="number" value={d.price} onChange={e => handleDishChange(i, 'price', e.target.value)} /></td>
               </tr>
             ))}
