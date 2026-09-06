@@ -97,10 +97,10 @@ export default function App() {
 
   return (
     <div style={styles.container}>
-      <h1 style={{ borderBottom: '2px solid #dee2e6', paddingBottom: '10px', color: '#212529' }}>Hostel Food Compatibility Board</h1>
+      <h1 style={{ borderBottom: '2px solid #61dafb', paddingBottom: '10px', color: '#61dafb', textAlign: 'center' }}>Hostel Food Compatibility Board</h1>
 
       <section style={styles.section}>
-        <h2 style={styles.h2}>Residents</h2>
+        <h2 style={{ ...styles.h2, textAlign: 'center' }}>Residents</h2>
         <table style={styles.table}>
           <thead>
             <tr>
@@ -129,13 +129,12 @@ export default function App() {
       </section>
 
       <section style={styles.section}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 style={{ ...styles.h2, marginBottom: 0 }}>Dishes</h2>
-          <div>
-            <label style={{ fontWeight: 'bold', marginRight: '10px', color: '#212529' }}>Budget (₹):</label>
-            <input style={{ ...styles.input, width: '100px' }} type="number" value={budget} onChange={e => setBudget(e.target.value)} />
-          </div>
+        <div style={{ marginBottom: '25px', padding: '15px', backgroundColor: '#e9ecef', borderRadius: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '2px solid #0d6efd' }}>
+          <label style={{ fontSize: '1.2em', fontWeight: 'bold', marginRight: '15px', color: '#212529' }}>Group Budget (₹):</label>
+          <input style={{ ...styles.input, width: '150px', fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center' }} type="number" value={budget} onChange={e => setBudget(e.target.value)} />
         </div>
+        
+        <h2 style={{ ...styles.h2, textAlign: 'center' }}>Dishes</h2>
 
         <table style={styles.table}>
           <thead>
