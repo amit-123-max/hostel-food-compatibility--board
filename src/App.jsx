@@ -243,7 +243,27 @@ export default function App() {
                     <td style={styles.td}>{e.dish.id}</td>
                     <td style={styles.td}>{e.dish.name}</td>
                     <td style={styles.td}>
-                      <span style={styles.reasonText}>{e.reasons.join(', ')}</span>
+                      {e.reasons.map((reason, idx) => {
+                        let bgColor = '#6c757d'; // default gray for OVER_BUDGET
+                        if (reason.startsWith('ALLERGEN:')) bgColor = '#dc3545'; // red
+                        else if (reason.startsWith('DIET:')) bgColor = '#fd7e14'; // orange
+                        
+                        return (
+                          <span key={idx} style={{
+                            display: 'inline-block',
+                            padding: '4px 10px',
+                            margin: '2px 6px 2px 0',
+                            backgroundColor: bgColor,
+                            color: '#fff',
+                            borderRadius: '16px',
+                            fontSize: '0.85em',
+                            fontWeight: 'bold',
+                            boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
+                          }}>
+                            {reason}
+                          </span>
+                        );
+                      })}
                     </td>
                   </tr>
                 ))}

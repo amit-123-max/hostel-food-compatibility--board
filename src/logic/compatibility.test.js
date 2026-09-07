@@ -54,7 +54,7 @@ describe('Compatibility Engine', () => {
     const result = calculateCompatibility(initialResidents, invalidDishes, initialBudget);
     
     // Should trigger exact INVALID_INPUT error and clear results
-    assert.equal(result.error, 'INVALID_INPUT');
+    assert.equal(result.error, 'INVALID_INPUT: Dish Table, Row D01, Price field');
     assert.equal(result.compatibleDishes.length, 0);
     assert.equal(result.excludedDishes.length, 0);
   });

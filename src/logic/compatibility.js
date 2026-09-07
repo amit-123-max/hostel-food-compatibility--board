@@ -14,15 +14,18 @@ function validateInputs(residents, dishes, budget) {
   // Budget validation: must be a positive whole number
   const parsedBudget = Number(budget);
   if (!Number.isInteger(parsedBudget) || parsedBudget <= 0) {
-    return 'INVALID_INPUT';
+    return 'INVALID_INPUT: Budget amount is invalid.';
   }
 
   const dishIds = new Set();
-
-  for (const dish of dishes) {
+  
+  for (let i = 0; i < dishes.length; i++) {
+    const dish = dishes[i];
+    const rowName = dish.id && dish.id.trim() !== '' ? dish.id : `Index ${i + 1}`;
+    
     // Dish ID non-empty
-    if (!dish.id || dish.id.trim() === '') return 'INVALID_INPUT';
-
+    if (!dish.id || dish.id.trim() === '') return `INVALID_INPUT: Dish Table, Row ${rowName}, ID field`;
+    
     // Check for duplicate dish IDs
     if (dishIds.has(dish.id)) {
       return 'DUPLICATE_DISH_ID';
@@ -30,30 +33,33 @@ function validateInputs(residents, dishes, budget) {
     dishIds.add(dish.id);
 
     // Other text fields non-empty
-    if (!dish.cafe || dish.cafe.trim() === '') return 'INVALID_INPUT';
-    if (!dish.name || dish.name.trim() === '') return 'INVALID_INPUT';
-    if (!dish.diet || dish.diet.trim() === '') return 'INVALID_INPUT';
+    if (!dish.cafe || dish.cafe.trim() === '') return `INVALID_INPUT: Dish Table, Row ${rowName}, Cafe field`;
+    if (!dish.name || dish.name.trim() === '') return `INVALID_INPUT: Dish Table, Row ${rowName}, Dish Name field`;
+    if (!dish.diet || dish.diet.trim() === '') return `INVALID_INPUT: Dish Table, Row ${rowName}, Diet Class field`;
 
     // Price must be positive whole number
     const parsedPrice = Number(dish.price);
     if (!Number.isInteger(parsedPrice) || parsedPrice <= 0) {
-      return 'INVALID_INPUT';
+      return `INVALID_INPUT: Dish Table, Row ${rowName}, Price field`;
     }
 
     // Ingredients non-empty after trimming
     for (const tag of dish.ingredients) {
-      if (!tag || tag.trim() === '') return 'INVALID_INPUT';
+      if (!tag || tag.trim() === '') return `INVALID_INPUT: Dish Table, Row ${rowName}, Ingredients field`;
     }
   }
 
-  for (const resident of residents) {
-    // Resident text fields non-empty
-    if (!resident.name || resident.name.trim() === '') return 'INVALID_INPUT';
-    if (!resident.diet || resident.diet.trim() === '') return 'INVALID_INPUT';
+  for (let i = 0; i < residents.length; i++) {
+    const resident = residents[i];
+    const rowName = resident.name && resident.name.trim() !== '' ? resident.name : `Index ${i + 1}`;
 
+    // Resident text fields non-empty
+    if (!resident.name || resident.name.trim() === '') return `INVALID_INPUT: Resident Table, Row ${rowName}, Name field`;
+    if (!resident.diet || resident.diet.trim() === '') return `INVALID_INPUT: Resident Table, Row ${rowName}, Diet field`;
+    
     // Allergens non-empty after trimming
     for (const tag of resident.allergens) {
-      if (!tag || tag.trim() === '') return 'INVALID_INPUT';
+      if (!tag || tag.trim() === '') return `INVALID_INPUT: Resident Table, Row ${rowName}, Allergens field`;
     }
   }
 
